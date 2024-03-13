@@ -1,11 +1,22 @@
 # WalletWatchTgBot
 ### Telegram Cryptocurrency Wallet Tracker Bot
+<div align="center">
+    <img src="assets/tg.png" width="300"/>
+</div>
 
+<p align="center">
+  <a href="https://github.com/Louis3797/awesome-readme-template/blob/master/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="license" />
+  </a>
+</p>
+<h4 align="center">
+    <a href="https://t.me/crypto_wallet_liza_bot">View Demo</a>
+</h4>
 This Telegram bot, developed using Python and the aiogram framework, serves as a cryptocurrency wallet tracker for wallets in the ERC20 and BEP20 networks. 
 
 ## Features
 <div align="center">
-    <img src="assets/tgBot.png" width=500/>
+    <img src="assets/tgBot.png"/>
 </div>
 
 - Wallet Configuration Management: Users can add, remove, and manage configurations of their cryptocurrency wallets.
@@ -15,17 +26,18 @@ This Telegram bot, developed using Python and the aiogram framework, serves as a
 - Wallet and Token Deletion: Users can delete their wallets and tokens from the bot's records.
 
 ## Usage
-1. Start the Bot: Start a conversation with the bot by searching for it on Telegram or clicking on a provided link.
-2. Adding Wallets:
-Use the /addwallet command to add configurations for your cryptocurrency wallets. Follow the prompts to enter necessary details.
-3. Adding Tokens:
-Once wallets are added, use the /addtoken command to add tokens to your wallets for balance tracking.
-4. Receiving Updates:
-By default, users receive updates on their saved tokens. Use the /connect command to toggle updates on or /stop tooff.
-5. Managing Wallets and Tokens:
-Use the /deletewallet and /deletetoken commands to remove wallets and tokens, respectively.
-6. Help:
-Use the /help command to get information via telegram bot.
+1. ***Start the Bot***: 
+*Start a conversation with the bot by searching for it on Telegram or clicking on a provided link.*
+2. ***Adding Wallets***:
+*Use the /addwallet command to add configurations for your cryptocurrency wallets. Follow the prompts to enter necessary details.*
+3. ***Adding Tokens***:
+*Once wallets are added, use the /addtoken command to add tokens to your wallets for balance tracking.*
+4. ***Receiving Updates***:
+*By default, users receive updates on their saved tokens. Use the /connect command to toggle updates on or /stop tooff.*
+5. ***Managing Wallets and Tokens***:
+*Use the /deletewallet and /deletetoken commands to remove wallets and tokens, respectively.*
+6. ***Help***:
+*Use the /help command to get information via telegram bot.*
 
 ## Installation
 
