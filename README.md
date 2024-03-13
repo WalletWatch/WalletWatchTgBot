@@ -2,8 +2,8 @@
 ### Telegram Cryptocurrency Wallet Tracker Bot
 <div align="center">
     <img src="assets/tg.png" width="300"/>
+    <br/>
 </div>
-
 <p align="center">
   <a href="https://github.com/Louis3797/awesome-readme-template/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="license" />
