@@ -4,6 +4,10 @@
 This Telegram bot, developed using Python and the aiogram framework, serves as a cryptocurrency wallet tracker for wallets in the ERC20 and BEP20 networks. 
 
 ## Features
+<div align="center">
+    <img src="assets/tgBot.png" width=500/>
+</div>
+
 - Wallet Configuration Management: Users can add, remove, and manage configurations of their cryptocurrency wallets.
 - Token Addition: Users can add tokens to their wallets for monitoring their balances.
 - Balance Updates: The bot provides updates on the balances of saved tokens.
