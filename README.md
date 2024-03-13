@@ -1,7 +1,7 @@
 # WalletWatchTgBot
 ### Telegram Cryptocurrency Wallet Tracker Bot
 <div align="center">
-    <img src="assets/tg.png" width="300"/>
+    <img src="assets/tg.png" width="150"/>
     <br/>
 </div>
 <p align="center">
@@ -16,7 +16,7 @@ This Telegram bot, developed using Python and the aiogram framework, serves as a
 
 ## Features
 <div align="center">
-    <img src="assets/tgBot.png"/>
+    <img src="assets/tgBot.png" width=700/>
 </div>
 
 - Wallet Configuration Management: Users can add, remove, and manage configurations of their cryptocurrency wallets.
