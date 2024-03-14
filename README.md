@@ -64,7 +64,7 @@ BOT_TOKEN=your_bot_token_here
 4. Run the bot:
 
 ```bash
-python tgBot/main.py
+python tg_bot/main.py
 ```
 
 ## Contributing
