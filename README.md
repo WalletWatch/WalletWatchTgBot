@@ -85,18 +85,10 @@ Copy `.env.sample` to a new file called `.env` and configure the settings as des
 BOT_TOKEN=your_bot_token_here
 ```
 
-3. Install Dependencies
-
-Go to the infra folder and install necessary packages and applications:
+4. Run bot container
 
 ```bash
-make prepare
-```
-
-4. Run bot
-
-```bash
-make run 
+docker-compose -f docker_compose.yml up -d
 ```
 
 ## Contributing
