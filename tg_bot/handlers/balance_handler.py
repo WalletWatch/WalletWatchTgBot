@@ -17,7 +17,7 @@ async def balance_handler(msg: Message):
     if len(balances) == 0:
         await msg.answer(NO_BALANCE)
     else:
-        await msg.answer(BALANCE_LIST)
+        answer = BALANCE_LIST
         for indx in range(len(balances)):
             name = balances[indx]['asset']
             wallet = balances[indx]['wallet_name']
@@ -30,16 +30,17 @@ async def balance_handler(msg: Message):
             current_time = datetime.now()
             time_difference = current_time - start_time
 
-            await msg.answer(text=f"*Кошелёк*: *{wallet}*\n\
+            answer += f"*Кошелёк*: *{wallet}*\n\
 *Токен*: *{name}*\n\
     - Количество: *{round(balance, 2)} {name}*\n\
     - Цена: *${round(price, 4)}* за 1 {name}\n\
     - Сумма: *${round(value, 2)}*\n\
     - Сеть: *{network}*\n\
-    - Обновлено: *{time_difference}*\n",
-        parse_mode='Markdown'
-    )
-        await msg.answer(ADD_BALANCE_MESSAGE)
+    - Обновлено: *{time_difference}*\n"
+
+        answer += ADD_BALANCE_MESSAGE
+        await msg.answer(text=answer, parse_mode='Markdown')
+
 
 
 @router_balance.callback_query(F.data =="tokens")
@@ -48,7 +49,7 @@ async def balance_handler(callback: CallbackQuery):
     if len(balances) == 0:
         await callback.message.answer(NO_BALANCE)
     else:
-        await callback.message.answer(BALANCE_LIST)
+        answer = BALANCE_LIST + '\n'
         for indx in range(len(balances)):
             name = balances[indx]['asset']
             wallet = balances[indx]['wallet_name']
@@ -61,16 +62,16 @@ async def balance_handler(callback: CallbackQuery):
             current_time = datetime.now()
             time_difference = current_time - start_time
 
-            await callback.message.answer(text=f"*Кошелёк*: *{wallet}*\n\
+            answer += f"*Кошелёк*: *{wallet}*\n\
 *Токен*: *{name}*\n\
     - Количество: *{round(balance, 2)} {name}*\n\
     - Цена: *${round(price, 4)}* за 1 {name}\n\
     - Сумма: *${round(value, 2)}*\n\
     - Сеть: *{network}*\n\
-    - Обновлено: *{time_difference}*\n",
-        parse_mode='Markdown'
-    )
-        await callback.message.answer(ADD_BALANCE_MESSAGE)
+    - Обновлено: *{time_difference}*\n\n"
+        
+        answer += ADD_BALANCE_MESSAGE
+        await callback.message.answer(text=answer, parse_mode='Markdown')
 
 
 

@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-TOKEN = os.getenv('BOT_TOKEN')
+TOKEN = "7020669369:AAEZZVBUfTN6h6CkeTjsDUPg3lK4BPzXVlI"
 
 from aiogram import Bot, Dispatcher
 from aiogram.enums.parse_mode import ParseMode
