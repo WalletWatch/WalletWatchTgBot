@@ -16,12 +16,14 @@ async def wallets_handler(msg: Message):
     if len(wallets) == 0:
         await msg.answer(NO_WALLET)
     else:
-        await msg.answer(WALLET_LIST)
+        answer = WALLET_LIST
         for indx in range(len(wallets)):
             name = wallets[indx]['wallet_name']
             address = wallets[indx]['wallet_address']
-            await msg.answer(f'🔹 *{name}: *' + f'{address}', parse_mode='Markdown')
-        await msg.answer(ADD_WALLET_MESSAGE)
+            answer += f'    *{name}: *' + f'{address}'
+    
+        answer += ADD_WALLET_MESSAGE
+        await msg.answer(text=answer,  parse_mode='Markdown')
 
 @router_wallet.callback_query(F.data =="wallets")
 async def wallets_handler(callback: CallbackQuery):
@@ -29,12 +31,14 @@ async def wallets_handler(callback: CallbackQuery):
     if len(wallets) == 0:
         await callback.message.answer(NO_WALLET)
     else:
-        await callback.message.answer(WALLET_LIST)
+        answer = WALLET_LIST + "\n"
         for indx in range(len(wallets)):
             name = wallets[indx]['wallet_name']
             address = wallets[indx]['wallet_address']
-            await callback.message.answer(f'🔹 *{name}: *' + f'{address}', parse_mode='Markdown')
-        await callback.message.answer(ADD_WALLET_MESSAGE)
+            answer += f'    *{name}: *' + f'{address}\n\n'
+                                        
+        answer += ADD_WALLET_MESSAGE
+        await callback.message.answer(text=answer, parse_mode='Markdown')
 
 
 @router_wallet.message(Command("deletewallet"))
@@ -60,12 +64,12 @@ async def wallets_delete(callback: CallbackQuery, state: FSMContext):
 
 @router_wallet.message(StateFilter(None), Command("addwallet"))
 async def add_wallet(message: Message, state: FSMContext):
-    await message.answer("Введите адресс кошелька, который хотите добавить или /cancel, если захотите прекратить: ")
+    await message.answer("Введите *адресс кошелька,* который хотите добавить или /cancel, если захотите прекратить: ", parse_mode='Markdown')
     await state.set_state(Wallet.wallet_address)
 
 @router_wallet.callback_query(F.data =="addwallet")
 async def add_wallet(callback: CallbackQuery, state: FSMContext):
-    await callback.message.answer("Введите адресс кошелька, который хотите добавить или /cancel, если захотите прекратить: ")
+    await callback.message.answer("Введите *адресс кошелька*, который хотите добавить или /cancel, если захотите прекратить: ", parse_mode='Markdown')
     await state.set_state(Wallet.wallet_address)
 
 
