@@ -20,7 +20,6 @@ async def main():
     dp = Dispatcher(storage=MemoryStorage())
 
     dp.include_router(router_wallet)
-    # dp.include_router(router_balance)
     dp.include_router(router_main)
 
     # loop = asyncio.get_event_loop()

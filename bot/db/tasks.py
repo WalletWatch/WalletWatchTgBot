@@ -17,7 +17,7 @@ async def update_balances(bot):
             new_price = get_token_price(row[1])
             new_price = new_price if new_price else row[4]
 
-            if (abs(row[3] - new_balance) > 0.000000001 or abs(row[4] - new_price) > 0.00000001):
+            if (abs(row[3] - new_balance) > 10**(-6) or abs(row[4] - new_price) > 10**(-6)):
                 d_balance = row[3] - new_balance
 
                 change = "+" if d_balance > 0 else ""

@@ -8,7 +8,7 @@ db = Database()
 
 MORALIS_API = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImI3ZDE0MDJmLTI5NTMtNDk3Zi1hMWIyLTNjMzk5OGNkOTRmNCIsIm9yZ0lkIjoiMzg2MTcxIiwidXNlcklkIjoiMzk2ODAyIiwidHlwZUlkIjoiNzE2N2MwY2MtMGNkNS00ODk3LWE0MTAtZjY1NGM0NjFhNDAzIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTIxNjc5MTcsImV4cCI6NDg2NzkyNzkxN30.f6BAqK1I-8yn1RyoqNNKx9y_jovbghohsQ3Q2uRFQhg"
 COINMARKET_URL = 'https://pro-api.coinmarketcap.com/v2/tools/price-conversion'
-COINMARKET_APIKEY = "3f7955f4-e74d-4064-b6cb-55cfacf51718"
+COINMARKET_APIKEY = "6c3bed18-6c25-4e4a-9a3e-c8243cf734b5"
 
 def token_list_with_price(chain, address):
     params = {
@@ -50,7 +50,7 @@ def createAsset(wallet_address, wallet_id, user):
                 network_id=chain[0],
                 wallet_id=wallet_id,
             )
-    db.update_last_known_sum(wallet_id=wallet_id, user=user)
+    db.update_last_known_sum(wallet_id=wallet_id)
 
 def update_tokens(chain, address, token_address):
     params = {

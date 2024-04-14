@@ -1,5 +1,5 @@
 import psycopg2
-DATABASE_URL = "postgresql://postgres:2608@localhost/tg_bot"
+DATABASE_URL = "psql://postgres:2608@psql/tg_bot"
 
 class Database:
     def __init__(self, database_url=DATABASE_URL):
@@ -8,7 +8,6 @@ class Database:
 
     def add_balance(self, asset, address, balance, price, user_id, network_id, wallet_id):
         value = balance * price
-        print(value)
         self.cursor.execute(f"INSERT INTO tokens ( \
                 asset, \
                 address, \
@@ -33,7 +32,7 @@ class Database:
         return wallet_id
 
     def check_wallet(self, wallet_address, user_id):
-        self.cursor.execute(f"SELECT * FROM wallets WHERE adress = {wallet_address} AND user_id = {user_id}")
+        self.cursor.execute(f"SELECT * FROM wallets WHERE adress = '{wallet_address}' AND user_id = {user_id}")
         if len(self.cursor.fetchall()) == 0:
             return True
         else: return False
@@ -87,6 +86,14 @@ class Database:
         self.conn.commit()
         self.cursor.execute(f"SELECT * FROM tokens WHERE id = {token_id}")
         return self.cursor.fetchone()
+
+    def update_track_balance(self, token_id, track):
+        self.cursor.execute(f"UPDATE tokens SET track = {track} WHERE id = {token_id}")
+        self.conn.commit()
+
+    def update_delta_balance(self, token_id, delta):
+        self.cursor.execute(f"UPDATE tokens SET track = {delta} WHERE id = {token_id}")
+        self.conn.commit()
 
     def delete_wallet(self, user_id, wallet_id):
         self.cursor.execute(f"DELETE FROM wallets WHERE id = {wallet_id} AND user_id = {user_id}")

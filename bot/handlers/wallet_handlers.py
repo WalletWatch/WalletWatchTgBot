@@ -3,7 +3,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 
-from text import NO_WALLET, WALLET_WRONG, ADD_WALLET_MESSAGE, WALLET_DOESNT_EXIST, WALLET_LIST
+from text import NO_WALLET, CHOOSE, ADD_WALLET_MESSAGE, WALLET_DOESNT_EXIST, WALLET_LIST
 from states import Wallet, DeleteWallet, WatchWallet, TokenWatch
 from db.db import Database
 from utils import is_wallet_connected, createAsset
@@ -13,7 +13,6 @@ router_wallet = Router()
 db = Database()
 
 # SHOW WALLET INFO
-
 @router_wallet.message(Command("wallets"))
 async def wallets_handler(msg: Message):
     user = msg.from_user.id
@@ -67,17 +66,18 @@ async def wallets_handler(callback: CallbackQuery, state: FSMContext):
     if len(wallets) == 0:
         await callback.message.answer(NO_WALLET)
     else:
-        await callback.message.answer(text=ADD_WALLET_MESSAGE, reply_markup=make_wallet_keyboard(user), parse_mode='Markdown')
+        await callback.message.answer(text="Выберите кошелёк: ", reply_markup=make_wallet_keyboard(user), parse_mode='Markdown')
         await state.set_state(WatchWallet.id_wallet)
 
 @router_wallet.callback_query(WatchWallet.id_wallet)
 async def balance_handler(callback: CallbackQuery, state: FSMContext):
     await callback.message.answer(text="Выберите токен: ", reply_markup=make_token_keyboard(callback.data),  parse_mode='Markdown')
-    await state.set_state(TokenWatch.id_token)
+    await state.clear()
 
-@router_wallet.callback_query(TokenWatch.id_token)
-async def show_balance(callback: CallbackQuery, state: FSMContext):
-    token = db.get_balance(callback.data)
+@router_wallet.callback_query(F.data.startswith("token"))
+async def show_balance(callback: CallbackQuery):
+    token_id = callback.data.split("_")[1]
+    token = db.get_balance(int(token_id))
     network = db.get_network(token[8])
 
     answer = f"*Токен*: *{token[1]}*\n\
@@ -86,7 +86,42 @@ async def show_balance(callback: CallbackQuery, state: FSMContext):
     - Сумма: *${round(token[3] * token[4], 2)}*\n\
     - Сеть: *{network[1]}*\n"
     
-    await callback.message.answer(answer, reply_markup=make_token_menu(callback.data), parse_mode='Markdown')
+    await callback.message.answer(answer, parse_mode='Markdown')
+    await callback.message.answer(text=CHOOSE, reply_markup=make_token_menu(token[0], token[6]))
+
+
+# SETTIGNS FOR TOKENS
+@router_wallet.callback_query(F.data.startswith("track"))
+async def change_track_token(callback: CallbackQuery):
+    token_id = callback.data.split("_")[1]
+    token = db.get_balance(int(token_id))
+    if (token[6]):
+        await callback.message.answer("Теперь Вы не будете получаеть уведомления по этому токену.")
+    else:
+        await callback.message.answer("Теперь Вы будете получаеть уведомления по этому токену.")
+    db.update_track_balance(token_id, not token[6])
+
+@router_wallet.callback_query(F.data.startswith("delta"))
+async def change_track_token(callback: CallbackQuery, state: FSMContext):
+    token = callback.data.split("_")[1]
+    await state.update_data(id_token=int(token))
+
+    await callback.message.answer("Введите новое значение: ")
+    await state.set_state(TokenWatch.delta)
+
+@router_wallet.message(TokenWatch.delta, F.text)
+async def input_delta(message: Message, state: FSMContext):
+    try:
+        value = float(message.text)
+    except ValueError:
+        await message.answer("Попробуйте ввести другое значение!")
+        await state.set_state(TokenWatch.delta)
+        return
+    
+    user_data = await state.get_data()
+    db.update_delta_balance(user_data['id_token'], value)
+    message.answer("Вы успешно поменяли значение!")
+    await state.clear()
 
 
 # DELETE WALLET
@@ -111,7 +146,6 @@ async def balance_delete_handler(calback: CallbackQuery, state: FSMContext):
 @router_wallet.callback_query(DeleteWallet.id_wallet)
 async def wallets_delete(callback: CallbackQuery, state: FSMContext):
     user = callback.from_user.id
-    print(callback.data)
     db.delete_wallet(user_id=user, wallet_id=callback.data)
     await state.clear()
     await callback.message.answer("Кошелёк удален!")
@@ -162,16 +196,16 @@ async def add_wallet_name(message: Message, state: FSMContext):
         await state.clear()
         return
 
-    try:
-        wallet_id = db.add_wallet(user, message.text, user_data['inputed_wallet_address'])
-        await message.answer(
-            text=f"Вы добавили кошелек с названием <b>{message.text}</b> и адресом <b>{user_data['inputed_wallet_address']}</b>. ", 
-            parse_mode="HTML"
-        )
-        createAsset(wallet_address=user_data['inputed_wallet_address'], wallet_id=wallet_id, user=user)
-        await state.clear()
-    except:
-        await message.answer(WALLET_WRONG)
-        await message.answer("Введите адресс кошелька, который хотите добавить: ")
-        await state.clear()
-        await state.set_state(Wallet.wallet_address)
+    wallet_id = db.add_wallet(user, message.text, user_data['inputed_wallet_address'])
+    await message.answer(
+        text=f"Вы добавили кошелек с названием <b>{message.text}</b> и адресом <b>{user_data['inputed_wallet_address']}</b>. ", 
+        parse_mode="HTML"
+    )
+    createAsset(wallet_address=user_data['inputed_wallet_address'], wallet_id=wallet_id, user=user)
+    await state.clear()
+
+    # except:
+    #     await message.answer(WALLET_WRONG)
+    #     await message.answer("Введите адресс кошелька, который хотите добавить: ")
+    #     await state.clear()
+    #     await state.set_state(Wallet.wallet_address)

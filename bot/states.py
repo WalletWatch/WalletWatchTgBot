@@ -11,7 +11,7 @@ class WatchWallet(StatesGroup):
     id_wallet = State()
 
 class TokenWatch(StatesGroup):
-    id_token = State()
+    delta = State()
 
 class UserState(StatesGroup):
     some_state = State()
