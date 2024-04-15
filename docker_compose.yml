@@ -14,12 +14,8 @@ services:
     container_name: telegram-bot
     volumes:
       - ./bot:/bot
-    env_file: .env
     restart: always
     build:
         context: ./bot
         dockerfile: Dockerfile
     command: sh -c "python main.py"
-
-volumes:
-  postgres_data:
