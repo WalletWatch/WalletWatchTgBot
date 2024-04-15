@@ -20,7 +20,7 @@ services:
     env_file: .env
     restart: always
     build:
-        context: .
+        context: ./bot
         dockerfile: Dockerfile
     command: sh -c "python main.py"
 
