@@ -3,16 +3,13 @@ version: "3.9"
 services:
   psql:
     image: postgres
-    container_name: prod_psql
+    container_name: psql
     environment:
       - POSTGRES_DB=tg_bot
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=2608
-    ports:
-      - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./scripts.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data:/docker-entrypoint-initdb.d
   telegram-bot:
     container_name: telegram-bot
     volumes:

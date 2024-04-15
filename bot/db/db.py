@@ -1,9 +1,8 @@
 import psycopg2
-DATABASE_URL = "psql://postgres:2608@psql/tg_bot"
 
 class Database:
-    def __init__(self, database_url=DATABASE_URL):
-        self.conn = psycopg2.connect(database_url)
+    def __init__(self):
+        self.conn = psycopg2.connect(dbname="tg_bot", host="psql", user="postgres", password="2608", port="5432")
         self.cursor = self.conn.cursor()
 
     def add_balance(self, asset, address, balance, price, user_id, network_id, wallet_id):
