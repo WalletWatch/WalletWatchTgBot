@@ -13,7 +13,7 @@ from db.tasks import update_balances, update_wallets
 
 load_dotenv()
 # TOKEN = os.getenv('BOT_TOKEN')
-TOKEN = "1109886596:AAE9eKnmmDZzp0VciLdCKFHyrTrFwzseIJA"
+TOKEN = "7020669369:AAEZZVBUfTN6h6CkeTjsDUPg3lK4BPzXVlI"
 
 async def main():
     bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)

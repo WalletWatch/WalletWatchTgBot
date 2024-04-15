@@ -16,7 +16,7 @@ services:
   telegram-bot:
     container_name: telegram-bot
     volumes:
-      - ./tg_bot:/tg_bot
+      - ./bot:/bot
     env_file: .env
     restart: always
     build:
